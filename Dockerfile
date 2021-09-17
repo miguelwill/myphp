@@ -12,7 +12,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
   apt update && \
   apt-get -y upgrade && \
 #  apt install -y --no-install-recommends apache2-dev default-libmysqlclient-dev && \
-#  apt-get clean && \
+  apt clean && \
   rm -rf /var/lib/apt/lists/*
 
 #Install modules in php
