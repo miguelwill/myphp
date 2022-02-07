@@ -9,11 +9,11 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="1" \
 
 
 RUN apt-get update -y \
-        && apt-get install -y libxml2-dev zlib1g-dev zip imagemagick pdftk \
+        && apt-get install -y libxml2-dev zlib1g-dev zip imagemagick pdftk libpng-dev \
         && apt-get clean -y
 
 #Install modules in php
-RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap
+RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap gd mbstring
 
 #Copy opcache config file
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
