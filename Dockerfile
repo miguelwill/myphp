@@ -11,12 +11,15 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="1" \
 RUN export DEBIAN_FRONTEND=noninteractive && \
   apt update && \
   apt-get -y upgrade && \
-  apt install -y --no-install-recommends libxml2-dev zlib1g-dev libzip4 libzip-dev zip imagemagick pdftk && \
+  apt install -y --no-install-recommends libxml2-dev zlib1g-dev libzip4 libzip-dev zip imagemagick pdftk libpng-dev libonig-dev && \
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
 #Install modules in php
+RUN docker-php-ext-install mbstring
+RUN docker-php-ext-install gd
 RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap
+
 
 #Copy opcache config file
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
