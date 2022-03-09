@@ -1,4 +1,4 @@
-FROM php:7.4.27-apache-bullseye
+FROM php:7.4.28-fpm-bullseye
 MAINTAINER miguelwill@gmail.com
 
 #ENV Variables for OPCACHE
