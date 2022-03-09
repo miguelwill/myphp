@@ -11,7 +11,7 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="1" \
 RUN export DEBIAN_FRONTEND=noninteractive && \
   apt update && \
   apt-get -y upgrade && \
-  apt install -y --no-install-recommends libxml2-dev zlib1g-dev libzip4 libzip-dev zip imagemagick pdftk libpng-dev libonig-dev && \
+  apt install -y --no-install-recommends git vim libxml2-dev zlib1g-dev libzip4 libzip-dev zip imagemagick pdftk libpng-dev libonig-dev && \
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
@@ -25,7 +25,7 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 #Enable apache2 modules
-RUN a2enmod rewrite ssl
+#RUN a2enmod rewrite ssl
 
 #Copy php configuracion production
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
