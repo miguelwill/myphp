@@ -1,4 +1,4 @@
-FROM php:7.3-cli-bullseye
+FROM php:5.6-cli-stretch
 MAINTAINER miguelwill@gmail.com
 
 #install dev packages
