@@ -11,9 +11,16 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="1" \
 RUN export DEBIAN_FRONTEND=noninteractive && \
   apt update && \
   apt-get -y upgrade && \
-  apt install -y --no-install-recommends libxml2-dev zlib1g-dev libzip4 libzip-dev zip imagemagick pdftk libpng-dev libonig-dev libcurl4 libcurlpp-dev && \
+  apt install -y --no-install-recommends git libxml2-dev zlib1g-dev libzip4 libzip-dev zip imagemagick pdftk libpng-dev libonig-dev libcurl4 libcurlpp-dev libz-dev libmemcached-dev libmemcached11 && \
   apt clean && \
   rm -rf /var/lib/apt/lists/*
+
+#Install memcached module for php
+RUN git clone -b v3.2.0 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached \
+    && docker-php-ext-configure /usr/src/php/ext/memcached \
+        --disable-memcached-sasl \
+    && docker-php-ext-install /usr/src/php/ext/memcached \
+    && rm -rf /usr/src/php/ext/memcached
 
 #Install modules in php
 RUN docker-php-ext-install mbstring
@@ -24,6 +31,7 @@ RUN docker-php-ext-install xml curl
 
 #Copy opcache config file
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
 
 #Enable apache2 modules
 RUN a2enmod rewrite ssl
