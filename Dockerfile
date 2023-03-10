@@ -28,6 +28,8 @@ RUN docker-php-ext-install gd
 RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap
 RUN docker-php-ext-install xml curl
 
+RUN pecl install redis && docker-php-ext-enable redis
+
 
 #Copy opcache config file
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
