@@ -27,4 +27,7 @@ the mpm_prefork.conf file was added to increase the MaxSpareServers value from t
 
 this image was created for use with websites like wordpress or joomla that require specific modules and specific versions.
 
+# OPCache
+OPcache enabled
+
 image in docker-hub : https://hub.docker.com/r/miguelwill/myphp
