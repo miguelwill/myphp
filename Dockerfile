@@ -1,15 +1,17 @@
-FROM php:5.6-apache
+FROM php:5.6-apache-stretch
 MAINTAINER miguelwill@gmail.com
 
 #ENV Variables for OPCACHE
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="1" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
     PHP_OPCACHE_MEMORY_CONSUMPTION="192" \
-    PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10"
+    PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10" 
 
 
-RUN apt-get update -y \
-        && apt-get install -y libxml2-dev zlib1g-dev zip imagemagick pdftk libpng-dev \
+RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list && \
+	export DEBIAN_FRONTEND=noninteractive && \
+	apt-get update -y \
+        && apt-get install -y --no-install-recommends --force-yes libxml2-dev zlib1g-dev zip imagemagick pdftk libpng-dev \
         && apt-get clean -y
 
 #Install modules in php
