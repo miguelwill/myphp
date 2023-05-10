@@ -3,11 +3,15 @@ MAINTAINER miguelwill@gmail.com
 
 #install dev packages
 RUN export DEBIAN_FRONTEND=noninteractive && \
-  apt update && \
-  apt-get -y --force-yes upgrade && \
-  apt install -y --no-install-recommends apache2-dev libmysqlclient-dev libpng-dev && \
+  echo "deb http://archive.debian.org/debian jessie main contrib non-free" > /etc/apt/sources.list && \
+  apt update
+
+RUN  apt install -y --no-install-recommends --force-yes apache2-dev libmysqlclient-dev libpng-dev && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
+
+COPY apache2.conf /etc/apache2/apache2.conf
+RUN mkdir -m755 /var/run/apache2
 
 #prepare apache2 mod mysql auth
 COPY mod_auth_mysql-3.0.0 /usr/src/mod_auth_mysql-3.0.0

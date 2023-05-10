@@ -1,0 +1,14 @@
+#version for config and support version 18
+version: '3.6'
+
+services:
+
+  apache2:
+    image: miguelwill/myphp:5.3-mysql-auth
+    volumes:
+       - ./html:/var/www/html
+    restart: always
+    environment:
+      TZ: America/Santiago
+    ports:
+      - 80:80
