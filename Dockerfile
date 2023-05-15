@@ -21,4 +21,4 @@ RUN cd /usr/src/mod_auth_mysql-3.0.0 && \
   apxs2 -c -L/usr/lib/mysql -I/usr/include/mysql -lmysqlclient -lm -lz mod_auth_mysql.c && \
   apxs2 -i mod_auth_mysql.la
 RUN echo "LoadModule mysql_auth_module /usr/lib/apache2/modules/mod_auth_mysql.so" > /etc/apache2/mods-available/auth_mysql.load && \
-  a2enmod auth_mysql rewrite
+  a2enmod auth_mysql rewrite ssl
