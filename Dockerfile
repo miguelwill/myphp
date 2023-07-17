@@ -1,4 +1,4 @@
-FROM php:5.6-apache-stretch
+FROM php:5.6-cli-stretch
 MAINTAINER miguelwill@gmail.com
 
 #ENV Variables for OPCACHE
@@ -10,10 +10,10 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="1" \
 
 RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list && \
 	export DEBIAN_FRONTEND=noninteractive && \
-	apt-get update -y \
-        && apt-get install -y --no-install-recommends --force-yes libxml2-dev zlib1g-dev zip imagemagick \
+	apt-get update -y &&\
+        apt-get install -y --no-install-recommends --force-yes libxml2-dev zlib1g-dev zip imagemagick \
 	pdftk libpng-dev libz-dev curl libzip-dev unzip  freetds-common freetds-dev \
-	unixodbc unixodbc-dev libodbc1 odbcinst1debian2 libpq-dev git tdsodbc libaio-dev \
+	unixodbc unixodbc-dev libodbc1 odbcinst1debian2 libpq-dev git tdsodbc libaio-dev pdftk \
         && apt-get clean -y
 
 #Install modules in php
@@ -64,12 +64,21 @@ RUN set -x \
 
 	
 RUN docker-php-ext-install pdo_dblib 
+RUN docker-php-ext-install tokenizer wddx bcmath calendar sysvmsg sysvsem sysvshm
+
+#install mail and ssmtp
+RUN export DEBIAN_FRONTEND=noninteractive && \
+	apt-get update -y &&\
+	apt-get install -y --no-install-recommends --force-yes bsd-mailx ssmtp 
+	
+
 
 #Copy opcache config file
+COPY conf.ini /usr/local/etc/php/conf.d/conf.ini
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
-#Enable apache2 modules
-RUN a2enmod rewrite ssl
+#Enable apache2 modules disable on cli
+#RUN a2enmod rewrite ssl
 
 #Copy php configuracion production
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
