@@ -19,6 +19,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install gd
 RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap
+RUN docker-php-ext-install intl
 
 
 #Copy opcache config file
