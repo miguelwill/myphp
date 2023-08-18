@@ -22,21 +22,22 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap gd mbstring
 
 
 # Download oracle packages and install OCI8
-COPY instantclient-basic-linuxx64.zip /tmp/instantclient-basic-linuxx64.zip
-COPY instantclient-sdk-linuxx64.zip /tmp/instantclient-sdk-linuxx64.zip
+COPY instantclient-basic-linux.x64-11.2.0.4.0.zip /tmp/instantclient-basic-linuxx64.zip
+COPY instantclient-sdk-linux.x64-11.2.0.4.0.zip /tmp/instantclient-sdk-linuxx64.zip
 
 RUN unzip /tmp/instantclient-sdk-linuxx64.zip -d /usr/lib/oracle/ \
     && rm /tmp/instantclient-sdk-linuxx64.zip \
     && unzip /tmp/instantclient-basic-linuxx64.zip -d /usr/lib/oracle/ \
     && rm /tmp/instantclient-basic-linuxx64.zip \
-    && echo /usr/lib/oracle/instantclient_21_10 > /etc/ld.so.conf.d/oracle-instantclient.conf \
+    && echo /usr/lib/oracle/instantclient_11_2 > /etc/ld.so.conf.d/oracle-instantclient.conf \
     && ldconfig
 
-ENV LD_LIBRARY_PATH /usr/lib/oracle/instantclient_21_10
+ENV LD_LIBRARY_PATH /usr/lib/oracle/instantclient_11_2
 
 # Install php oci8 module with path of instantclient
+RUN ln -s /usr/lib/oracle/instantclient_11_2/libclntsh.so.11.1 /usr/lib/oracle/instantclient_11_2/libclntsh.so
 RUN docker-php-ext-configure oci8 \
-	--with-oci8=instantclient,/usr/lib/oracle/instantclient_21_10 
+	--with-oci8=instantclient,/usr/lib/oracle/instantclient_11_2
 RUN docker-php-ext-install oci8 
 
 	
