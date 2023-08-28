@@ -65,6 +65,17 @@ RUN set -x \
 
 	
 RUN docker-php-ext-install pdo_dblib 
+# extra modules
+RUN docker-php-ext-install dba 
+RUN docker-php-ext-install exif
+RUN docker-php-ext-install gettext
+RUN docker-php-ext-install mysql
+RUN docker-php-ext-install pcntl
+RUN docker-php-ext-install shmop
+RUN docker-php-ext-install sockets
+RUN docker-php-ext-install sysvmsg sysvsem sysvshm
+RUN docker-php-ext-install wddx 
+RUN docker-php-ext-install xmlrpc
 
 #instalacion ssmtp
 RUN apt-get install -y --no-install-recommends --force-yes ssmtp
