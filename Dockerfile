@@ -66,6 +66,9 @@ RUN set -x \
 	
 RUN docker-php-ext-install pdo_dblib 
 
+#instalacion ssmtp
+RUN apt-get install -y --no-install-recommends --force-yes ssmtp
+
 #Copy opcache config file
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
