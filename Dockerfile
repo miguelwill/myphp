@@ -1,4 +1,4 @@
-FROM php:7.4.28-fpm-bullseye
+FROM php:7.4.33-fpm-bullseye
 MAINTAINER miguelwill@gmail.com
 
 #ENV Variables for OPCACHE
@@ -19,6 +19,33 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install gd
 RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap
+RUN docker-php-ext-install calendar
+RUN docker-php-ext-install exif
+#RUN docker-php-ext-install gettext
+#RUN docker-php-ext-install igbinary
+#RUN docker-php-ext-install imagick se instala despues
+#RUN docker-php-ext-install msgpack
+
+RUN mkdir -p /usr/src/php/ext/msgpack; \
+    curl -fsSL https://github.com/msgpack/msgpack-php/archive/refs/tags/msgpack-2.2.0.tar.gz | tar xvz -C "/usr/src/php/ext/msgpack" --strip 1; \
+    docker-php-ext-install msgpack;
+
+RUN docker-php-ext-install pcntl
+RUN docker-php-ext-install shmop
+RUN docker-php-ext-install sysvmsg sysvsem sysvshm
+#RUN docker-php-ext-install wddx
+RUN docker-php-ext-install xmlrpc
+
+RUN apt update && apt install -y --no-install-recommends libxslt-dev
+
+RUN docker-php-ext-install xsl
+
+
+RUN apt install -y --no-install-recommends libmagickwand-dev
+
+RUN mkdir -p /usr/src/php/ext/imagick; \
+    curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1; \
+    docker-php-ext-install imagick;
 
 
 #Copy opcache config file
