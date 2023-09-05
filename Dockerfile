@@ -17,7 +17,7 @@ RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.
 #add file /etc/ssmtp/ssmtp.conf for smtp sending
 
 #Install modules in php
-RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap gd mbstring
+RUN docker-php-ext-install mysqli pdo pdo_mysql opcache zip soap mbstring
 RUN docker-php-ext-install mysql
 
 #Copy opcache config file
@@ -44,6 +44,26 @@ RUN docker-php-ext-install sysvmsg sysvsem sysvshm
 RUN docker-php-ext-install wddx 
 RUN docker-php-ext-install xmlrpc
 RUN docker-php-ext-install intl
+
+RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd \
+        --enable-gd-native-ttf \
+        --with-freetype-dir=/usr/include/freetype2 \
+        --with-png-dir=/usr/include \
+        --with-jpeg-dir=/usr/include \
+       && docker-php-ext-install gd \
+	&& docker-php-ext-enable gd
+
+RUN apt-get update && apt-get install -y libmagickwand-dev --no-install-recommends && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y libgraphicsmagick1-dev libmagickcore-dev  libmagickwand-6-headers --no-install-recommends && rm -rf /var/lib/apt/lists/*
+RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.9.7/bin-q16/MagickWand-config /usr/bin/MagickWand-config && \
+    ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.9.7/bin-q16/Wand-config /usr/bin/Wand-config && \
+    ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.9.7/bin-q16/Magick-config /usr/bin/Magick-config
+
+RUN mkdir -p /usr/src/php/ext/imagick; \
+    curl -fsSL https://github.com/Imagick/imagick/archive/refs/tags/3.2.0RC1.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1; \
+    docker-php-ext-install imagick;
 
 #Enable apache2 modules
 RUN a2enmod rewrite ssl
