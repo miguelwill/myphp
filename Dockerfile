@@ -78,7 +78,7 @@ RUN docker-php-ext-install wddx
 RUN docker-php-ext-install xmlrpc
 
 #instalacion ssmtp
-RUN apt-get install -y --no-install-recommends --force-yes ssmtp
+RUN apt-get install -y --no-install-recommends --force-yes ssmtp p7zip
 
 #Copy opcache config file
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
