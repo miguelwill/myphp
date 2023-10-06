@@ -43,7 +43,15 @@ RUN mkdir -p /usr/src/php/ext/imagick; \
     curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1; \
     docker-php-ext-install imagick;
 
-RUN docker-php-ext-install memcache
+#RUN docker-php-ext-install memcache
+
+
+RUN export DEBIAN_FRONTEND=noninteractive && \
+  apt update && \
+  apt-get -y upgrade && \
+  apt install -y --no-install-recommends p7zip && \
+  apt clean && \
+  rm -rf /var/lib/apt/lists/*
 
 #Copy opcache config file
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
