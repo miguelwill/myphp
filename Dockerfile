@@ -76,11 +76,11 @@ RUN docker-php-ext-install sockets
 RUN docker-php-ext-install sysvmsg sysvsem sysvshm
 RUN docker-php-ext-install wddx 
 RUN docker-php-ext-install xmlrpc
+RUN docker-php-ext-install calendar && docker-php-ext-configure calendar
 
 #instalacion ssmtp
-RUN apt-get install -y --no-install-recommends --force-yes ssmtp p7zip
+RUN apt-get install -y --no-install-recommends --force-yes ssmtp p7zip iputils-ping
 
-RUN docker-php-ext-install calendar && docker-php-ext-configure calendar
 
 #Copy opcache config file
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
