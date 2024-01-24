@@ -13,7 +13,7 @@ RUN	export DEBIAN_FRONTEND=noninteractive && \
 	apt-get update -y &&\
         apt-get install -y --no-install-recommends --force-yes libxml2-dev zlib1g-dev zip imagemagick \
 	pdftk libpng-dev libz-dev curl libzip-dev unzip  freetds-common freetds-dev \
-	libpq-dev git  libaio-dev \
+	libpq-dev git  libaio-dev libonig-dev \
         && apt-get clean -y
 
 #Install modules in php
