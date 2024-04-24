@@ -71,7 +71,13 @@ RUN docker-php-ext-install tokenizer wddx bcmath calendar sysvmsg sysvsem sysvsh
 RUN export DEBIAN_FRONTEND=noninteractive && \
 	apt-get update -y &&\
 	apt-get install -y --no-install-recommends --force-yes bsd-mailx ssmtp 
-	
+
+#add timezonedb
+RUN docker-php-source extract \
+    && pecl bundle -d /usr/src/php/ext timezonedb \
+    && docker-php-ext-configure timezonedb \
+    && docker-php-ext-install -j$(nproc) timezonedb \
+    && docker-php-source delete
 
 
 #Copy opcache config file
