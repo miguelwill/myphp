@@ -17,6 +17,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
+#add timezonedb
+RUN docker-php-source extract \
+    && pecl bundle -d /usr/src/php/ext timezonedb \
+    && docker-php-ext-configure timezonedb \
+    && docker-php-ext-install -j$(nproc) timezonedb \
+    && docker-php-source delete
+
 #Install modules in php
 RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install gd
