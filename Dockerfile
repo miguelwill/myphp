@@ -65,6 +65,14 @@ RUN mkdir -p /usr/src/php/ext/imagick; \
     curl -fsSL https://github.com/Imagick/imagick/archive/refs/tags/3.2.0RC1.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1; \
     docker-php-ext-install imagick;
 
+#install timezonedb
+RUN docker-php-source extract \
+    && pecl bundle -d /usr/src/php/ext timezonedb \
+    && docker-php-ext-configure timezonedb \
+    && docker-php-ext-install -j$(nproc) timezonedb \
+    && docker-php-source delete
+
+
 #Enable apache2 modules
 RUN a2enmod rewrite ssl
 
