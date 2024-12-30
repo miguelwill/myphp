@@ -38,6 +38,18 @@ RUN mkdir -p /usr/src/php/ext/imagick; \
     docker-php-ext-install imagick;
 
 RUN docker-php-ext-install intl
+RUN docker-php-ext-install exif \
+    && docker-php-ext-enable exif
+
+
+RUN apt update && \
+  apt-get -y upgrade && \
+  apt install -y --no-install-recommends ssmtp libpq-dev && \
+  apt clean && \
+  rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
+RUN docker-php-ext-install pgsql pdo_pgsql
 
 #Copy opcache config file
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
