@@ -1,4 +1,4 @@
-FROM php:7.4.33-apache-bullseye
+FROM php:8.2-apache-bookworm
 #MAINTAINER miguelwill@gmail.com
 
 #ENV Variables for OPCACHE
@@ -11,7 +11,7 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="1" \
 RUN export DEBIAN_FRONTEND=noninteractive && \
   apt update && \
   apt-get -y upgrade && \
-  apt install -y --no-install-recommends libxml2-dev zlib1g-dev libzip4 libzip-dev zip imagemagick pdftk libpng-dev libonig-dev ssmtp libmagickwand-dev libxslt-dev && \
+  apt install -y --no-install-recommends libxml2-dev zlib1g-dev libzip4 libzip-dev zip imagemagick pdftk libpng-dev libonig-dev ssmtp libmagickwand-dev libxslt-dev curl libcurl4 libcurl4-openssl-dev && \
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
@@ -36,12 +36,17 @@ RUN docker-php-ext-install pcntl
 RUN docker-php-ext-install shmop
 RUN docker-php-ext-install sysvmsg sysvsem sysvshm
 #RUN docker-php-ext-install wddx
-RUN docker-php-ext-install xmlrpc
+#RUN docker-php-ext-install xmlrpc
+RUN docker-php-ext-install xml
+RUN docker-php-ext-install curl
 RUN docker-php-ext-install xsl
 
 RUN mkdir -p /usr/src/php/ext/imagick; \
     curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1; \
     docker-php-ext-install imagick;
+
+RUN pecl install channel://pecl.php.net/xmlrpc-1.0.0RC3  xmlrpc
+RUN docker-php-ext-enable xmlrpc
 
 #RUN docker-php-ext-install memcache
 
