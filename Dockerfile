@@ -18,8 +18,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 #Install modules in php
 RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install iconv
+# enable GD
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
+##
 RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install intl
 RUN docker-php-ext-install pdo
@@ -41,10 +43,16 @@ RUN docker-php-ext-install xml
 RUN docker-php-ext-install curl
 RUN docker-php-ext-install xsl
 
-# disable imagick, only GD
+# enable imagick
 #RUN mkdir -p /usr/src/php/ext/imagick; \
 #    curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1; \
 #    docker-php-ext-install imagick;
+# ✅ Alternativa con PECL (requiere libmagickwand-dev)
+RUN apt-get update && apt-get install -y libmagickwand-dev --no-install-recommends \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && rm -rf /var/lib/apt/lists/*
+
 
 RUN pecl install channel://pecl.php.net/xmlrpc-1.0.0RC3  xmlrpc
 RUN docker-php-ext-enable xmlrpc
