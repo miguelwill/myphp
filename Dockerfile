@@ -1,4 +1,5 @@
-FROM php:8.2-apache-bookworm
+#FROM php:8.2-apache-bookworm
+FROM php:8.2-apache-trixie
 #MAINTAINER miguelwill@gmail.com
 
 #ENV Variables for OPCACHE
@@ -11,7 +12,7 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="1" \
 RUN export DEBIAN_FRONTEND=noninteractive && \
   apt update && \
   apt-get -y upgrade && \
-  apt install -y --no-install-recommends libxml2-dev zlib1g-dev libzip4 libzip-dev zip imagemagick pdftk libpng-dev libonig-dev ssmtp libmagickwand-dev libxslt-dev curl libcurl4 libcurl4-openssl-dev p7zip && \
+  apt install -y --no-install-recommends libxml2-dev zlib1g-dev libzip-dev zip imagemagick pdftk libpng-dev libonig-dev ssmtp libmagickwand-dev libxslt-dev curl libcurl4 libcurl4-openssl-dev p7zip && \
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
