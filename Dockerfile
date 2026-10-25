@@ -1,4 +1,4 @@
-FROM php:8.3-apache-trixie
+FROM php:8.4-apache-trixie
 #MAINTAINER miguelwill@gmail.com
 
 #ENV Variables for OPCACHE
