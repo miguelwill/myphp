@@ -1,7 +1,7 @@
 # Myphp
 php and apache with extra modules
 
-modules in v8.1 (apache 2.4 )
+modules in v8.4 (apache 2.4 )
 mbstring
 gd
 mysqli
@@ -14,12 +14,12 @@ xml
 curl
 memcached (only ext, for external process)
 
-Based on base image php:8.1-apache-bullseye
+Based on base image php:8.4-apache-trixie
 has the necessary packages installed for the required modules
 
 # Memcached
 
-the memcached module is based on version 3.2, compatible with php 8.1
+the memcached module is based on version 3.x, compatible with php 8.4
 
 # Mpm_prefork
 
