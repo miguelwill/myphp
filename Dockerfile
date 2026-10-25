@@ -66,6 +66,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # 3. Archivos de configuración
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+COPY rpaf.conf /etc/apache2/mods-available/rpaf.conf
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 EXPOSE 80 443
